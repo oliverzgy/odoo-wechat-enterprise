@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_wechat_enterprise_message_tree" model="ir.ui.view">
+            <field name="name">wechat.enterprise.message.tree</field>
+            <field name="model">wechat.enterprise.message</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_wechat_enterprise_message_form" model="ir.ui.view">
+            <field name="name">wechat.enterprise.message.form</field>
+            <field name="model">wechat.enterprise.message</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="sent_message" string="发送" type="object" states="draft"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="users" widget="many2many_tags"/>
+                            <field name="account"/>
+                            <field name="application"/>
+                            <field name="state"/>
+                        </group>
+                        <field name="content"/>
+                        <field name="result" readonly="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
