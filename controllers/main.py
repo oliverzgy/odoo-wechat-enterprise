@@ -19,12 +19,13 @@ class WechatControllers(http.Controller):
         application_obj = request.registry['wechat.enterprise.application']
         application = application_obj.search(request.cr, request.uid, [('code', '=', code)], context=request.context)
         if not application:
+            _logger.warning('Cant not find application.')
             abort(403)
         else:
             application = application_obj.browse(request.cr, request.uid, application[0], context=request.context)
         wechat_crypto = WeChatCrypto(application.token, application.ase_key, application.account.corp_id)
 
-        if request.method == 'GET':
+        if request.httprequest.method == 'GET':
             try:
                 echo_str = wechat_crypto.check_signature(
                     msg_signature,
@@ -33,6 +34,7 @@ class WechatControllers(http.Controller):
                     echostr
                 )
             except InvalidSignatureException:
+                _logger.warning('check_signature fail.')
                 abort(403)
             return echo_str
         else:
