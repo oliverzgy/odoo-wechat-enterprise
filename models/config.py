@@ -3,6 +3,7 @@ __author__ = 'cysnake4713'
 from openerp import tools
 from openerp import models, fields, api
 from openerp.tools.translate import _
+from openerp.tools.safe_eval import safe_eval as eval
 
 
 class WechatAccount(models.Model):
@@ -23,3 +24,18 @@ class WechatApplication(models.Model):
     token = fields.Char('Token')
     ase_key = fields.Char('EncodingAESKey')
     account = fields.Many2one('wechat.enterprise.account', 'Enterprise Account')
+    filters = fields.One2many('wechat.enterprise.filter', 'application', 'Filters')
+
+    @api.one
+    def process_request(self, msg):
+        for a_filter in self.filters.filtered(lambda f: f.is_active is True):
+            match_context = {'msg': msg, 'result': False, 'context': {}}
+            eval(a_filter.match, match_context, mode="exec", nocopy=True)
+            if match_context['result']:
+                action_context = {'msg': msg, 'result': None, 'context': match_context['context']}
+                eval(a_filter.action, action_context, mode="exec", nocopy=True)
+                return action_context['result']
+        else:
+            return None
+
+

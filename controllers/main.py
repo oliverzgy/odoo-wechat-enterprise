@@ -1,11 +1,10 @@
+__author__ = 'cysnake4713'
+from wechatpy.enterprise.exceptions import InvalidCorpIdException
+from wechatpy.enterprise import WeChatClient, WeChatCrypto, parse_message, create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from werkzeug.exceptions import abort
-
-__author__ = 'cysnake4713'
-
 import logging
 from openerp import http
-from wechatpy.enterprise import WeChatClient, WeChatCrypto
 
 _logger = logging.getLogger(__name__)
 
@@ -36,6 +35,21 @@ class WechatControllers(http.Controller):
             except InvalidSignatureException:
                 _logger.warning('check_signature fail.')
                 abort(403)
-            return echo_str
+            return echo_str or ''
         else:
-            pass
+            try:
+                msg = wechat_crypto.decrypt_message(
+                    request.httprequest.data,
+                    msg_signature,
+                    timestamp,
+                    nonce
+                )
+            except (InvalidSignatureException, InvalidCorpIdException), e:
+                _logger.warning(str(e))
+                abort(403)
+            msg = parse_message(msg)
+            reply_msg = application.process_request(msg)[0]
+            if reply_msg:
+                reply = create_reply(reply_msg, msg).render()
+                res = wechat_crypto.encrypt_message(reply, nonce, timestamp)
+                return res

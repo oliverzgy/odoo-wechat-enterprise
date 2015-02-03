@@ -29,6 +29,13 @@
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>
+        <record id="action_wechat_enterprise_filter" model="ir.actions.act_window">
+            <field name="name">过滤器</field>
+            <field name="res_model">wechat.enterprise.filter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+        </record>
 
 
         <menuitem id="menuitem_wechat_enterprise_root" name="微信企业号" sequence="60"/>
@@ -41,7 +48,12 @@
         <menuitem id="menuitem_wechat_en_user_manage" name="所有用户" parent="menuitem_wechat_en_user"  sequence="20"
                 action="action_wechat_enterprise_user"/>
 
+        <menuitem id="menuitem_wechat_en_filter" name="过滤器" parent="menuitem_wechat_enterprise_root" sequence="70"/>
+        <menuitem id="menuitem_wechat_en_filter_manage" name="过滤器" parent="menuitem_wechat_en_filter"  sequence="20"
+                action="action_wechat_enterprise_filter"/>
+
         <menuitem id="menuitem_wechat_enterprise_config" name="设置" parent="menuitem_wechat_enterprise_root" sequence="100"/>
+
         <menuitem id="menuitem_wechat_en_account" name="账户" parent="menuitem_wechat_enterprise_config" sequence="20"
                 action="action_wechat_enterprise_account"/>
         <menuitem id="menuitem_wechat_en_application" name="应用" parent="menuitem_wechat_enterprise_config" sequence="30"
