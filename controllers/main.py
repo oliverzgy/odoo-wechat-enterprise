@@ -47,17 +47,18 @@ class WechatControllers(http.Controller):
             except (InvalidSignatureException, InvalidCorpIdException), e:
                 _logger.warning('decrypt_message fail.', str(e))
                 abort(403)
-            msg = parse_message(msg)
+
             try:
+                msg = parse_message(msg)
                 reply_msg = application.process_request(msg)[0]
+                if reply_msg:
+                    # if isinstance(reply_msg, list):
+                    #     reply_msg = reply_msg[0]
+                    reply = create_reply(reply_msg, msg).render()
+                    res = wechat_crypto.encrypt_message(reply, nonce, timestamp)
             except Exception, e:
-                _logger.error('process_request fail.', e)
+                _logger.error(e)
                 abort(403)
-            if reply_msg:
-                if isinstance(reply_msg, list):
-                    reply_msg = reply_msg[0]
-                reply = create_reply(reply_msg, msg).render()
-                res = wechat_crypto.encrypt_message(reply, nonce, timestamp)
                 return res
 
     @http.route('/wechat_enterprise/<string:code>/api/debug', type='http', auth="public", methods=['GET', 'POST'])
