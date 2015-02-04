@@ -12,6 +12,7 @@ Wechat Enterprise""",
     'data': [
         'views/message_view.xml',
         'views/user_view.xml',
+        'views/filter_view.xml',
         'views/menu.xml',
     ],
     'qweb': [

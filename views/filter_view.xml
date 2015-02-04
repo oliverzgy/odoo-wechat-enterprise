@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_wechat_enterprise_filter_tree" model="ir.ui.view">
+            <field name="name">view.wechat.enterprise.filter.tree</field>
+            <field name="model">wechat.enterprise.filter</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="is_template"/>
+                    <field name="is_active"/>
+                    <field name="application"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_wechat_enterprise_filter_form" model="ir.ui.view">
+            <field name="name">view.wechat.enterprise.filter.form</field>
+            <field name="model">wechat.enterprise.filter</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="application"/>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="is_template"/>
+                            <field name="is_active"/>
+                        </group>
+                        <group string="匹配">
+                            <field name="match" nolabel="1"/>
+                        </group>
+                        <group string="返回">
+                            <field name="action" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
