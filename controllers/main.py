@@ -45,14 +45,14 @@ class WechatControllers(http.Controller):
                     nonce
                 )
             except (InvalidSignatureException, InvalidCorpIdException), e:
-                _logger.warning(str(e))
+                _logger.warning('decrypt_message fail.', str(e))
                 abort(403)
             msg = parse_message(msg)
             try:
                 reply_msg = application.process_request(msg)[0]
             except Exception, e:
-                _logger.error(e)
-                return str(e)
+                _logger.error('process_request fail.', e)
+                abort(403)
             if reply_msg:
                 if isinstance(reply_msg, list):
                     reply_msg = reply_msg[0]
