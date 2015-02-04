@@ -4,6 +4,7 @@ from openerp import tools
 from openerp import models, fields, api
 from openerp.tools.translate import _
 from openerp.tools.safe_eval import safe_eval as eval
+import re
 
 
 class WechatAccount(models.Model):
@@ -29,10 +30,22 @@ class WechatApplication(models.Model):
     @api.one
     def process_request(self, msg):
         for a_filter in self.filters.filtered(lambda f: f.is_active is True):
-            match_context = {'msg': msg, 'result': False, 'context': {}}
+            match_context = {
+                'self': self,
+                'msg': msg,
+                'result': False,
+                'context': {},
+                're': re,
+            }
             eval(a_filter.match, match_context, mode="exec", nocopy=True)
             if match_context['result']:
-                action_context = {'msg': msg, 'result': None, 'context': match_context['context']}
+                action_context = {
+                    'self': self,
+                    'msg': msg,
+                    'result': None,
+                    'context': match_context['context'],
+                    'template': a_filter.template
+                }
                 eval(a_filter.action, action_context, mode="exec", nocopy=True)
                 return action_context['result']
         else:

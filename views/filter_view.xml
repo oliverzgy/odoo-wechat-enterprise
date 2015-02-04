@@ -24,16 +24,66 @@
                             <field name="application"/>
                             <field name="name"/>
                             <field name="sequence"/>
-                        </group>
-                        <group>
-                            <field name="is_template"/>
                             <field name="is_active"/>
+                            <field name="template"/>
                         </group>
-                        <group string="匹配">
+                        <group string="匹配" col="1">
+                            <p class="oe_edit_only">
+                                self: 当前self引用
+                                <br/>
+                                msg: 传入的消息内容
+                                <br/>
+                                result : 返回值，True 或者 False
+                                <br/>
+                                context： 传送给 action的 context
+                                <br/>
+                                re : 正则 re 包
+                            </p>
                             <field name="match" nolabel="1"/>
                         </group>
-                        <group string="返回">
+                        <group string="返回" col="1">
+                            <p class="oe_edit_only">
+                                self: 当前self引用
+                                <br/>
+                                msg: 传入的消息内容
+                                <br/>
+                                result : 返回给用户的结果
+                                <br/>
+                                context： 接收的context
+                                <br/>
+                                template：当前filter定义的模板
+                            </p>
                             <field name="action" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_wechat_enterprise_template_tree" model="ir.ui.view">
+            <field name="name">view.wechat.enterprise.template.tree</field>
+            <field name="model">wechat.enterprise.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_wechat_enterprise_template_form" model="ir.ui.view">
+            <field name="name">view.wechat.enterprise.template.form</field>
+            <field name="model">wechat.enterprise.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+
+                        <group string="内容" col="1">
+                            <p class="oe_edit_only">
+                                注意占位符格式为 %%(***)s 形式
+                            </p>
+                            <field name="content" nolabel="1"/>
                         </group>
                     </sheet>
                 </form>

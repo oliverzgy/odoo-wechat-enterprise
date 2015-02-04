@@ -17,8 +17,23 @@ class WechatFilter(models.Model):
     match = fields.Text('Match')
     action = fields.Text('Action')
     application = fields.Many2one('wechat.enterprise.application')
+    template = fields.Many2one('wechat.enterprise.template', 'Template')
 
     _defaults = {
         'is_active': True,
         'sequence': 10,
     }
+
+
+class WeChatTemplate(models.Model):
+    _name = 'wechat.enterprise.template'
+
+    name = fields.Char('Name', required=True)
+
+    content = fields.Text('Content')
+
+    @api.one
+    def render(self, values=None):
+        if not values:
+            values = {}
+        return self.content % values
