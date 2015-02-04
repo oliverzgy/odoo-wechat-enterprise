@@ -53,13 +53,13 @@ class WechatControllers(http.Controller):
                 reply_msg = application.process_request(msg)[0]
                 if reply_msg:
                     # if isinstance(reply_msg, list):
-                    #     reply_msg = reply_msg[0]
+                    # reply_msg = reply_msg[0]
                     reply = create_reply(reply_msg, msg).render()
                     res = wechat_crypto.encrypt_message(reply, nonce, timestamp)
             except Exception, e:
                 _logger.error(e)
                 abort(403)
-                return res
+            return res
 
     @http.route('/wechat_enterprise/<string:code>/api/debug', type='http', auth="public", methods=['GET', 'POST'])
     def process_debug(self, request, code, msg_signature, timestamp, nonce, msg=None, echostr=None):
