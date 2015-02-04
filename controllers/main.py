@@ -45,7 +45,7 @@ class WechatControllers(http.Controller):
                     nonce
                 )
             except (InvalidSignatureException, InvalidCorpIdException), e:
-                _logger.warning('decrypt_message fail.', str(e))
+                _logger.warning('decrypt_message fail.')
                 abort(403)
 
             try:
@@ -57,7 +57,7 @@ class WechatControllers(http.Controller):
                     reply = create_reply(reply_msg, msg).render()
                     return wechat_crypto.encrypt_message(reply, nonce, timestamp)
             except Exception, e:
-                _logger.error(e)
+                _logger.error('process error')
                 abort(403)
 
 
