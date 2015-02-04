@@ -11,6 +11,7 @@ Wechat Enterprise""",
     'depends': ['base', 'web'],
     'data': [
         'views/message_view.xml',
+        'views/user_view.xml',
         'views/menu.xml',
     ],
     'qweb': [

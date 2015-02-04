@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_wechat_enterprise_user_tree" model="ir.ui.view">
+            <field name="name">view.wechat.enterprise.user.tree</field>
+            <field name="model">wechat.enterprise.user</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="login"/>
+                    <field name="user"/>
+                    <field name="wechat_login"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="job"/>
+                    <field name="account"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wechat_enterprise_user_form" model="ir.ui.view">
+            <field name="name">view.wechat.enterprise.user.form</field>
+            <field name="model">wechat.enterprise.user</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group invisible="1">
+                            <field name="id"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="account"/>
+                                <field name="user"/>
+                            </group>
+                            <group>
+                                <field name="name"/>
+                                <field name="login" attrs="{'readonly':[('id','not in',[None, False, 0])]}"/>
+                            </group>
+                            <group>
+                                <field name="mobile"/>
+                                <field name="email"/>
+                                <field name="wechat_login"/>
+                            </group>
+                            <group>
+                                <field name="job"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
