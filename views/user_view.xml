@@ -12,8 +12,8 @@
                     <field name="wechat_login"/>
                     <field name="mobile"/>
                     <field name="email"/>
-                    <field name="job"/>
                     <field name="account"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -23,6 +23,11 @@
             <field name="model">wechat.enterprise.user</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button string="绑定" name="bind" type="object" states="unbind" class="oe_highlight"/>
+                        <button string="解绑" name="unbind" type="object" states="bind"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
                         <group invisible="1">
                             <field name="id"/>
@@ -33,8 +38,8 @@
                                 <field name="user"/>
                             </group>
                             <group>
+                                <field name="login" attrs="{'readonly':[('state','=','bind')]}"/>
                                 <field name="name"/>
-                                <field name="login" attrs="{'readonly':[('id','not in',[None, False, 0])]}"/>
                             </group>
                             <group>
                                 <field name="mobile"/>
