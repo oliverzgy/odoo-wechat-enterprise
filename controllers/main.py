@@ -56,10 +56,10 @@ class WechatControllers(http.Controller):
                     _logger.info('reply None! msg= %s, reply_msg= %s', msg, reply_msg)
                     return ''
             except (InvalidSignatureException, InvalidCorpIdException), e:
-                _logger.warning('decrypt_message fail.')
+                _logger.warning('decrypt_message fail. %s', e)
                 abort(403)
             except Exception, e:
-                _logger.error('process error')
+                _logger.error('process_request error: %s', e)
                 abort(403)
 
 
