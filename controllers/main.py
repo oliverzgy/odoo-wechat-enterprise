@@ -53,6 +53,7 @@ class WechatControllers(http.Controller):
                     reply = create_reply(reply_msg, msg).render()
                     return wechat_crypto.encrypt_message(reply, nonce, timestamp)
                 else:
+                    _logger.info('reply None! msg= %s, reply_msg= %s', msg, reply_msg)
                     return ''
             except (InvalidSignatureException, InvalidCorpIdException), e:
                 _logger.warning('decrypt_message fail.')
