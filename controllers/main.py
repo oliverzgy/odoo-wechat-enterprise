@@ -98,7 +98,7 @@ class WechatControllers(http.Controller):
                     reply = create_reply(reply_msg, msg).render()
                     return wechat_crypto.encrypt_message(reply, nonce, timestamp)
                 else:
-                    _logger.info('reply_msg is None %s', reply_msg)
-            except Exception:
-                _logger.error('process_request error')
+                    _logger.debug('reply_msg is None %s', reply_msg)
+            except Exception, e:
+                _logger.error('process_request error: %s', e)
                 abort(403)
