@@ -25,6 +25,7 @@ class WechatControllers(http.Controller):
         wechat_crypto = WeChatCrypto(application.token, application.ase_key, application.account.corp_id)
 
         if request.httprequest.method == 'GET':
+            echo_str = ''
             try:
                 echo_str = wechat_crypto.check_signature(
                     msg_signature,
@@ -35,7 +36,7 @@ class WechatControllers(http.Controller):
             except InvalidSignatureException:
                 _logger.warning('check_signature fail.')
                 abort(403)
-            return echo_str or ''
+            return echo_str
         else:
             try:
                 msg = wechat_crypto.decrypt_message(
@@ -44,11 +45,6 @@ class WechatControllers(http.Controller):
                     timestamp,
                     nonce
                 )
-            except (InvalidSignatureException, InvalidCorpIdException), e:
-                _logger.warning('decrypt_message fail.')
-                abort(403)
-
-            try:
                 msg = parse_message(msg)
                 reply_msg = application.process_request(msg)[0]
                 if reply_msg:
@@ -56,6 +52,11 @@ class WechatControllers(http.Controller):
                     # reply_msg = reply_msg[0]
                     reply = create_reply(reply_msg, msg).render()
                     return wechat_crypto.encrypt_message(reply, nonce, timestamp)
+                else:
+                    return ''
+            except (InvalidSignatureException, InvalidCorpIdException), e:
+                _logger.warning('decrypt_message fail.')
+                abort(403)
             except Exception, e:
                 _logger.error('process error')
                 abort(403)
@@ -90,9 +91,13 @@ class WechatControllers(http.Controller):
         else:
             try:
                 reply_msg = application.process_request(msg)[0]
-                if isinstance(reply_msg, list):
-                    reply_msg = reply_msg[0]
-            except Exception, e:
-                _logger.error(e)
-                return str(e)
-            return reply_msg
+                if reply_msg:
+                    # if isinstance(reply_msg, list):
+                    # reply_msg = reply_msg[0]
+                    reply = create_reply(reply_msg, msg).render()
+                    return wechat_crypto.encrypt_message(reply, nonce, timestamp)
+                else:
+                    _logger.info('reply_msg is None %s', reply_msg)
+            except Exception:
+                _logger.error('process_request error')
+                abort(403)
