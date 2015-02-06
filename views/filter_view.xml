@@ -39,7 +39,7 @@
                                 <br/>
                                 re : 正则 re 包
                             </p>
-                            <field name="match" nolabel="1"/>
+                            <field name="match" nolabel="1" widget="code_editor"/>
                         </group>
                         <group string="返回" col="1">
                             <p class="oe_edit_only">
@@ -53,7 +53,7 @@
                                 <br/>
                                 template：当前filter定义的模板
                             </p>
-                            <field name="action" nolabel="1"/>
+                            <field name="action" nolabel="1"  widget="code_editor"/>
                         </group>
                     </sheet>
                 </form>
