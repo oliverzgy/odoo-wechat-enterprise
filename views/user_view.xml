@@ -26,6 +26,7 @@
                     <header>
                         <button string="绑定" name="bind" type="object" states="unbind" class="oe_highlight"/>
                         <button string="解绑" name="unbind" type="object" states="bind"/>
+                        <button string="Invite him" name="invite" type="object" state="bind"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>

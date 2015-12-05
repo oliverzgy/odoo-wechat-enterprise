@@ -15,7 +15,8 @@ _logger = logging.getLogger(__name__)
 class WechatUser(models.Model):
     _name = 'wechat.enterprise.user'
 
-    state = fields.Selection([('unbind', 'Unbind'), ('bind', 'Bind')], 'State')
+    state = fields.Selection([('unbind', 'Unbind'), ('bind', 'Bind'),
+                              ('invite','Invite'),('invited','Invited')], 'State')
     name = fields.Char('Name', required=True)
     login = fields.Char('Login', required=True)
 
@@ -96,3 +97,19 @@ class WechatUser(models.Model):
 
         res = super(WechatUser, self).unlink()
         return res
+    
+    @api.multi
+    def invite(self):
+        for user in self:
+            client = WeChatClient(user.account.corp_id, user.account.corpsecret)
+            try:
+                wechat_user_info = client.user.get(user.login)
+            except WeChatClientException:
+                wechat_user_info = None
+            if wechat_user_info:
+                client.user.invite(user_id=user.login)
+            else:pass
+                
+                
+        
+        
