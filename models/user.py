@@ -1,5 +1,5 @@
 from wechatpy.exceptions import WeChatClientException
-
+from openerp.exceptions import ValidationError
 __author__ = 'cysnake4713'
 
 # coding=utf-8
@@ -103,12 +103,14 @@ class WechatUser(models.Model):
         for user in self:
             client = WeChatClient(user.account.corp_id, user.account.corpsecret)
             try:
-                wechat_user_info = client.user.get(user.login)
-            except WeChatClientException:
-                wechat_user_info = None
-            if wechat_user_info:
-                client.user.invite(user_id=user.login)
-            else:pass
+                user.state='bind'
+            except:
+                user.state='unbind'
+                raise ValidationError("%s hasn't been binded yet." % user.name)
+            client.user.invite(user_id=user.login)
+            user.state="invited"
+            
+            
                 
                 
         
