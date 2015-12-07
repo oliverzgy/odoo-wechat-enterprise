@@ -46,7 +46,7 @@
         
         <record model="ir.actions.client" id="wechatusers_updates_act">
             <field name="name">Wechat Users Updates</field>
-            <field name="tag"></field>
+            <field name="tag">fornoNull</field><!--this is just temporary-->
             <field name="params">{}</field>
         </record>
 		
