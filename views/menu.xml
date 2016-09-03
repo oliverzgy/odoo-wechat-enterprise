@@ -43,9 +43,15 @@
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>
-
+        
+        <record model="ir.actions.client" id="wechatusers_updates_act">
+            <field name="name">Wechat Users Updates</field>
+            <field name="tag">fornoNull</field><!--this is just temporary-->
+            <field name="params">{}</field>
+        </record>
+		
         <menuitem id="menuitem_wechat_enterprise_root" name="微信企业号" sequence="60"/>
-
+		
         <menuitem id="menuitem_wechat_en_message" name="消息" parent="menuitem_wechat_enterprise_root" sequence="50"/>
         <menuitem id="menuitem_wechat_en_message_manage" name="所有消息" parent="menuitem_wechat_en_message"  sequence="20"
                 action="action_wechat_enterprise_message"/>
@@ -53,7 +59,9 @@
         <menuitem id="menuitem_wechat_en_user" name="通讯录" parent="menuitem_wechat_enterprise_root" sequence="60"/>
         <menuitem id="menuitem_wechat_en_user_manage" name="所有用户" parent="menuitem_wechat_en_user"  sequence="20"
                 action="action_wechat_enterprise_user"/>
-
+		<menuitem id="menu_wechatusers_updates" name="Update info" parent="menuitem_wechat_en_user" sequence="90" 
+				action="wechatusers_updates_act"/>
+		
         <menuitem id="menuitem_wechat_en_filter" name="过滤器" parent="menuitem_wechat_enterprise_root" sequence="70"/>
         <menuitem id="menuitem_wechat_en_filter_manage" name="过滤器" parent="menuitem_wechat_en_filter"  sequence="20"
                 action="action_wechat_enterprise_filter"/>

@@ -5,7 +5,7 @@
             <field name="name">view.wechat.enterprise.user.tree</field>
             <field name="model">wechat.enterprise.user</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree color="blue:state=='bind';red:state=='invited'">
                     <field name="name"/>
                     <field name="login"/>
                     <field name="user"/>
@@ -25,7 +25,8 @@
                 <form>
                     <header>
                         <button string="绑定" name="bind" type="object" states="unbind" class="oe_highlight"/>
-                        <button string="解绑" name="unbind" type="object" states="bind"/>
+                        <button string="解绑" name="unbind" type="object" states="bind,invited"/>
+                        <button string="Invite him" name="invite" type="object" states="bind"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -47,6 +48,7 @@
                                 <field name="wechat_login"/>
                             </group>
                             <group>
+                            	<!--field name="department"/-->
                                 <field name="job"/>
                             </group>
                         </group>
@@ -54,5 +56,5 @@
                 </form>
             </field>
         </record>
-    </data>
+	</data>
 </openerp>
